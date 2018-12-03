@@ -1,21 +1,16 @@
-from code.util import *
-from code import eval
-from pandas import datetime
-from statsmodels.tsa.arima_model import ARIMA, ARMA
-import statsmodels.tsa.stattools as st
-from pandas.tools.plotting import autocorrelation_plot
+from util import *
+import eval
 import numpy as np
 import pyflux as pf
 
 
 if __name__ == '__main__':
 
-
-    #ts, data = load_data("../data/NSW2013.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
+    ts, data = load_data("./data/NSW2013.csv", columnName="TOTALDEMAND")
     # ts, data = load_data("../data/bike_hour.csv", indexName="dteday", columnName="cnt")
-    ts, data = load_data("../data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
-    #ts, data = load_data("../data/TAS2016.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
-    #ts, data = util.load_data("../data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
+    # ts, data = load_data("../data/traffic_data_in_bits.csv",  columnName="value")
+    #  ts, data = load_data("../data/TAS2016.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
+    # ts, data = util.load_data("../data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
 
     dataset = ts.values[:]
     X = np.array(dataset,dtype="float64")
@@ -45,15 +40,12 @@ if __name__ == '__main__':
 
     realTestY = np.array(test)
     predictions = np.array(predictions).reshape(-1)
-    #print(realTestY)
-    print(predictions)
-    MAE = eval.calcMAE(realTestY,predictions)
-    RMSE = eval.calcRMSE(realTestY,predictions)
-    MAPE = eval.calcSMAPE(realTestY,predictions)
-    print ('Test MAE: %.8f' % MAE)
-    print ('Test RMSE: %.8f' % RMSE)
-    print ('Test MAPE: %.8f' % MAPE)
-
+    MAE = eval.calcMAE(realTestY, predictions)
+    RMSE = eval.calcRMSE(realTestY, predictions)
+    MAPE = eval.calcSMAPE(realTestY, predictions)
+    print('Test MAE: %.8f' % MAE)
+    print('Test RMSE: %.8f' % RMSE)
+    print('Test MAPE: %.8f' % MAPE)
 
     # plot
     # pyplot.plot(test)

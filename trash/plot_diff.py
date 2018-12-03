@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from code.util import *
+from util import *
 
 #ts, data = load_data("../data/NSW2013.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
 # ts, data = load_data("../data/bike_hour.csv", indexName="dteday", columnName="cnt")

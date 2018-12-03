@@ -8,6 +8,7 @@ from torch.autograd import Variable
 
 torch.manual_seed(1)
 
+
 # 模型基类，主要是用于指定参数和cell类型
 class BaseModel(nn.Module):
 
@@ -35,24 +36,53 @@ class BaseModel(nn.Module):
 
 
 # 标准RNN模型
-class  RNNModel(BaseModel):
+class RNNModel(BaseModel):
 
     def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell):
 
         super(RNNModel, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
 
-    # def init_hidden(self, batchSize):
-    #
-    #     return hidden
-
     def forward(self, x, batchSize):
 
         h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
-        rnnOutput, hn = self.cell(x, h0) # rnnOutput 12,20,50 hn 1,20,50
+        rnnOutput, hn = self.cell(x, h0)
         hn = hn.view(batchSize, self.hiddenNum)
         fcOutput = self.fc(hn)
 
         return fcOutput
+
+
+class Multi_Hidden_RNN_Model(BaseModel):
+
+    def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell, seq_len, merge="sum"):
+
+        super(Multi_Hidden_RNN_Model, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
+        if merge == "sum":
+            self.dense = nn.Linear(hiddenNum, outputDim)
+        if merge == "concate":
+            self.dense = nn.Linear(hiddenNum * seq_len, outputDim)
+        self.hiddenNum = hiddenNum
+        self.merge = merge
+        self.seq_len = seq_len
+
+    def forward(self, x, batchSize):
+
+        h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
+        rnnOutput, hn = self.cell(x, h0)  # shape (batch_size, seq_len, hidden_num)
+        if self.merge == "sum":
+            sum_hidden = torch.sum(rnnOutput, 1)
+            x = sum_hidden.view(-1, self.hiddenNum)
+        if self.merge == "concate":
+            rnnOutput = rnnOutput.contiguous()
+            x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
+        fcOutput = self.dense(x)
+
+        return fcOutput
+
+
+class RNN_Attention(BaseModel):
+    pass
+
 
 
 # LSTM模型
@@ -60,7 +90,6 @@ class LSTMModel(BaseModel):
 
     def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell):
         super(LSTMModel, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
-
 
     def forward(self, x, batchSize):
 
@@ -71,6 +100,7 @@ class LSTMModel(BaseModel):
         fcOutput = self.fc(hn)
 
         return fcOutput
+
 
 # GRU模型
 class GRUModel(BaseModel):
@@ -86,6 +116,26 @@ class GRUModel(BaseModel):
         fcOutput = self.fc(hn)
 
         return fcOutput
+
+
+# 标准ANN模型
+class ANNModel(nn.Module):
+
+    def __init__(self, inputDim, hiddenNum, outputDim):
+
+        super(ANNModel, self).__init__()
+        self.hiddenNum = hiddenNum
+        self.inputDim = inputDim
+        self.outputDim = outputDim
+        self.fc1 = nn.Linear(self.inputDim, self.hiddenNum)
+        self.fc2 = nn.Linear(self.hiddenNum, self.outputDim)
+
+    def forward(self,x, batchSize):
+
+        output = self.fc1(x)
+        output = self.fc2(output)
+
+        return output
 
 # ResRNN模型
 class ResRNNModel(nn.Module):
@@ -176,24 +226,7 @@ class AttentionRNNModel(nn.Module):
         return fcOutput
 
 
-# 标准ANN模型
-class ANNModel(nn.Module):
 
-    def __init__(self, inputDim, hiddenNum, outputDim):
-
-        super(ANNModel, self).__init__()
-        self.hiddenNum = hiddenNum
-        self.inputDim = inputDim
-        self.outputDim = outputDim
-        self.fc1 = nn.Linear(self.inputDim, self.hiddenNum)
-        self.fc2 = nn.Linear(self.hiddenNum, self.outputDim)
-
-    def forward(self,x, batchSize):
-
-        output = self.fc1(x)
-        output = self.fc2(output)
-
-        return output
 
 # 分解网络
 class DecompositionNetModel(nn.Module):
