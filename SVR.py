@@ -8,7 +8,7 @@ def trainSVM(trainX, trainY):
 
     n = trainX.shape[0]
     print("trainx num is:", n)
-    svrModel = SVR(C=0.1, epsilon=0.01, kernel="rbf")
+    svrModel = SVR(C=0.001, epsilon=0.01, kernel="rbf")
     svrModel.fit(trainX, trainY)
 
     return svrModel
@@ -30,7 +30,7 @@ def predict_SVM_iteration(testX, lookAhead, svrModel):
 
     for i in range(lookAhead):
 
-        pred = svrModel.predict(testX)
+        pred = svrModel.predict(testX)  # (test_num, )
         ans.append(pred)
 
         testX = testX[:, 1:]
@@ -78,7 +78,7 @@ def run_SVM(data, lookBack, train_lookAhead, test_lookAhead):
 
 if __name__ == '__main__':
 
-    lookBack = 21
+    lookBack = 24
     train_lookAhead = 1
     test_lookAhead = 7
 
@@ -87,10 +87,10 @@ if __name__ == '__main__':
     print("test look ahead:", test_lookAhead)
 
     ts, data = load_data("./data/NSW2013.csv", columnName="TOTALDEMAND")
-    # ts, data = load_data("../data/bike_hour.csv", indexName="dteday", columnName="cnt")
-    #ts, data = load_data("../data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
-    #ts, data = load_data("../data/TAS2016.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
-    # ts, data = util.load_data("../data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
+    # ts, data = load_data("./data/bike_hour.csv", indexName="dteday", columnName="cnt")
+    # ts, data = load_data("./data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
+    # ts, data = load_data("./data/TAS2016.csv", columnName="TOTALDEMAND")
+    # ts, data = util.load_data("./data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
 
     testPred, MAE, MRSE, SMAPE = run_SVM(data, lookBack, train_lookAhead=train_lookAhead, test_lookAhead=test_lookAhead)
 

@@ -54,10 +54,10 @@ class RNNModel(BaseModel):
 
 class Multi_Hidden_RNN_Model(BaseModel):
 
-    def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell, seq_len, merge="sum"):
+    def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell, seq_len, merge="mean"):
 
         super(Multi_Hidden_RNN_Model, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
-        if merge == "sum":
+        if merge == "mean":
             self.dense = nn.Linear(hiddenNum, outputDim)
         if merge == "concate":
             self.dense = nn.Linear(hiddenNum * seq_len, outputDim)
@@ -69,12 +69,13 @@ class Multi_Hidden_RNN_Model(BaseModel):
 
         h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
         rnnOutput, hn = self.cell(x, h0)  # shape (batch_size, seq_len, hidden_num)
-        if self.merge == "sum":
-            sum_hidden = torch.sum(rnnOutput, 1)
+        if self.merge == "mean":
+            sum_hidden = torch.mean(rnnOutput, 1)
             x = sum_hidden.view(-1, self.hiddenNum)
         if self.merge == "concate":
             rnnOutput = rnnOutput.contiguous()
             x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
+        x = nn.Dropout(0.5)(x)
         fcOutput = self.dense(x)
 
         return fcOutput
@@ -114,6 +115,35 @@ class GRUModel(BaseModel):
         rnnOutput, hn = self.cell(x, h0)  # rnnOutput 12,20,50 hn 1,20,50
         hn = hn.view(batchSize, self.hiddenNum)
         fcOutput = self.fc(hn)
+
+        return fcOutput
+
+
+class Multi_Hidden_GRU_Model(BaseModel):
+
+    def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell, seq_len, merge="mean"):
+
+        super(Multi_Hidden_GRU_Model, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
+        if merge == "mean":
+            self.dense = nn.Linear(hiddenNum, outputDim)
+        if merge == "concate":
+            self.dense = nn.Linear(hiddenNum * seq_len, outputDim)
+        self.hiddenNum = hiddenNum
+        self.merge = merge
+        self.seq_len = seq_len
+
+    def forward(self, x, batchSize):
+
+        h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
+        rnnOutput, hn = self.cell(x, h0)  # shape (batch_size, seq_len, hidden_num)
+        if self.merge == "mean":
+            sum_hidden = torch.mean(rnnOutput, 1)
+            x = sum_hidden.view(-1, self.hiddenNum)
+        if self.merge == "concate":
+            rnnOutput = rnnOutput.contiguous()
+            x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
+        x = nn.Dropout(0.5)(x)
+        fcOutput = self.dense(x)
 
         return fcOutput
 

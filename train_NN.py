@@ -1,4 +1,4 @@
-from model import RNNModel, LSTMModel, GRUModel, ANNModel, ResRNNModel, Multi_Hidden_RNN_Model
+from model import *
 from torch.autograd import Variable
 import torch
 import torch.nn as nn
@@ -16,26 +16,31 @@ def train(trainX, trainY, epoch, lr, batchSize, modelPath, lookBack, lookAhead, 
     output = open(lossFilePath, 'wb')
     lossList = []
 
+    hidden_num = 128
+
     n = trainX.shape[0]
     print("trainx num is:", n)
     batchNum = n // batchSize - 1
     print("batch num is:", batchNum)
 
     if method == "RNN":
-        net = RNNModel(inputDim=1, hiddenNum=128, outputDim=lookAhead, layerNum=1, cell="RNN")
+        net = RNNModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="RNN")
     if method == "RNN_ALL":
-        net = Multi_Hidden_RNN_Model(inputDim=1, hiddenNum=128, outputDim=lookAhead, layerNum=1, cell="RNN", seq_len=lookBack, merge="concate")
+        net = Multi_Hidden_RNN_Model(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="RNN", seq_len=lookBack, merge="concate")
     if method == "LSTM":
-        net = LSTMModel(inputDim=1, hiddenNum=128, outputDim=lookAhead, layerNum=1, cell="LSTM")
+        net = LSTMModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="LSTM")
     if method == "GRU":
-        net = GRUModel(inputDim=1, hiddenNum=128, outputDim=lookAhead, layerNum=1, cell="GRU")
+        net = GRUModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="GRU")
+    if method == "GRU_ALL":
+        net = Multi_Hidden_GRU_Model(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="GRU", seq_len=lookBack, merge="mean")
     if method == "ANN":
-        net = ANNModel(inputDim=lookBack, hiddenNum=128, outputDim=1)
+        net = ANNModel(inputDim=lookBack, hiddenNum=hidden_num, outputDim=1)
     if method == "ResRNN":
         #net = ResidualRNNModel(inputDim=1, hiddenNum=100, outputDim=1, layerNum=1, cell="RNNCell")
-        net = ResRNNModel(inputDim=1, hiddenNum=100, outputDim=lookAhead, resDepth=-1)
+        net = ResRNNModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, resDepth=-1)
 
-    optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9)
+    # optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=0.0005)
+    optimizer = optim.RMSprop(net.parameters(), lr=lr, momentum=0.9)
 
     t1 = time.time()
     for epoch_idx in range(epoch):
@@ -101,6 +106,7 @@ def predict_iteration(testX, lookAhead, modelFileName):
         testX_torch = Variable(testX_torch)
         pred = net(testX_torch, testBatchSize)
         pred = pred.data.numpy()
+        pred = np.squeeze(pred)
         ans.append(pred)
 
         testX = testX[:, 1:]
@@ -108,7 +114,7 @@ def predict_iteration(testX, lookAhead, modelFileName):
         testX = np.append(testX, pred, axis=1)
 
     ans = np.array(ans)
-    ans = ans.transpose([1, 0, 2]).squeeze()
+    ans = ans.transpose([1, 0])
     return ans
 
 

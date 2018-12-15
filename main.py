@@ -1,4 +1,4 @@
-from train_NN import train, predict_iteration
+from train_NN import train, predict_iteration, predict
 from util import load_data, createSamples, divideTrainTest
 from sklearn.preprocessing import MinMaxScaler
 import eval
@@ -46,31 +46,28 @@ def run(data, lookBack, train_lookAhead, test_lookAhead, epoch, lr, batchSize, m
 
 if __name__ == "__main__":
 
-    lookBack = 21
+    lookBack = 24
     train_lookAhead = 1
-    test_lookAhead = 7
+    test_lookAhead = 1
     batchSize = 64
     epoch = 20
     MODEL_PATH = "./model/RNN_model.pkl"
-    METHOD = "RNN_ALL"
-    freq = 48
-    lr = 1e-3
+    METHOD = "GRU"
+    lr = 1e-4
 
     print("look back:", lookBack)
     print("look ahead:", test_lookAhead)
     print("batchSize", batchSize)
     print("epoch:", epoch)
-
     print("METHOD:", METHOD)
-    print("freq:", freq)
     print("MODEL_PATH:", MODEL_PATH)
     print("lr:", lr)
 
     ts, data = load_data("./data/NSW2013.csv",  columnName="TOTALDEMAND")
-    #ts, data = load_data("../data/bike_hour.csv", indexName="dteday", columnName="cnt")
-    #ts, data = load_data("../data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
-    #ts, data = load_data("../data/TAS2016.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
-    # ts, data = util.load_data("../data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
+    # ts, data = load_data("./data/bike_hour.csv", indexName="dteday", columnName="cnt")
+    # ts, data = load_data("./data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
+    # ts, data = load_data("./data/TAS2016.csv", columnName="TOTALDEMAND")
+    # ts, data = util.load_data("./data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
 
     testPred, MAE, MRSE, SMAPE = run(data=data, lookBack=lookBack, train_lookAhead=train_lookAhead, test_lookAhead=test_lookAhead,
                                 epoch=epoch,  lr=lr, batchSize=batchSize, method=METHOD, modelPath=MODEL_PATH)

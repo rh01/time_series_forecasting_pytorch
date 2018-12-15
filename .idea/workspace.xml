@@ -2,33 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d4671a49-2fc6-474e-9cbf-9b4f1e6356e8" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/SVR.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eval.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train_NN.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trash/trash_code" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/time_series_forecasting_pytorch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/time_series_forecasting_pytorch.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/ARIMA.py" beforeDir="false" afterPath="$PROJECT_DIR$/ARIMA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/FCD_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash/FCD_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/ARIMA2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/decomposition_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash/decomposition_net.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/eval.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/original.eps" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/original.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/plot_diff.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash/plot_diff.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/plot_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash/plot_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/season_decompose.py" beforeDir="false" afterPath="$PROJECT_DIR$/trash/season_decompose.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/svm_forecasting.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/train.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/util.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/diff_data.eps" beforeDir="false" afterPath="$PROJECT_DIR$/figure/diff_data.eps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/diff_data.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/figure/diff_data.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/original.eps" beforeDir="false" afterPath="$PROJECT_DIR$/figure/original.eps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/original.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/figure/original.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SVR.py" beforeDir="false" afterPath="$PROJECT_DIR$/SVR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_NN.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_NN.py" afterDir="false" />
     </list>
     <ignored path="time_series_forecasting_pytorch.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,6 +20,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$plot_loss.coverage" NAME="plot_loss Coverage Results" MODIFIED="1504612063018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$Nosetests_in_ML_forecasting_py.coverage" NAME="Nosetests in ML_forecasting.py Coverage Results" MODIFIED="1516271359994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$SVR.coverage" NAME="SVR Coverage Results" MODIFIED="1544836044498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$ARIMA.coverage" NAME="ARIMA Coverage Results" MODIFIED="1543824797227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$eval__1_.coverage" NAME="eval (1) Coverage Results" MODIFIED="1543805068559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$plot_diff.coverage" NAME="plot_diff Coverage Results" MODIFIED="1516777867010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
@@ -50,11 +29,12 @@
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$single_model.coverage" NAME="single_model Coverage Results" MODIFIED="1503573690908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$FCD_model.coverage" NAME="FCD_model Coverage Results" MODIFIED="1503571268951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$fcd_train.coverage" NAME="fcd_train Coverage Results" MODIFIED="1503571082474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$train_NN.coverage" NAME="train_NN Coverage Results" MODIFIED="1543835141820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$eval.coverage" NAME="eval Coverage Results" MODIFIED="1543405814411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$main.coverage" NAME="main Coverage Results" MODIFIED="1543803041505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$mm.coverage" NAME="mm Coverage Results" MODIFIED="1516271387351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$Nosetests_in_ML_py.coverage" NAME="Nosetests in ML.py Coverage Results" MODIFIED="1516271342536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
-    <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1543834389326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/time_series_forecasting_pytorch$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1544836987602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -77,45 +57,45 @@
     <session id="244322892">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.0" value="3" />
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.0" value="4" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="_bootstrap&gt;" value="2" />
-          <entry key="csv" value="17" />
+          <entry key="csv" value="19" />
           <entry key="eps" value="1" />
           <entry key="jpg" value="2" />
           <entry key="md" value="2" />
           <entry key="pkl" value="1" />
-          <entry key="py" value="226" />
+          <entry key="py" value="294" />
           <entry key="trash_code" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSV" value="17" />
+          <entry key="CSV" value="19" />
           <entry key="Image" value="2" />
           <entry key="Markdown" value="2" />
           <entry key="PLAIN_TEXT" value="7" />
           <entry key="PyRemoteDebug" value="3" />
-          <entry key="Python" value="225" />
+          <entry key="Python" value="293" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="10" />
-          <entry key="py" value="2830" />
+          <entry key="py" value="3153" />
           <entry key="trash_code" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="20" />
-          <entry key="Python" value="2830" />
+          <entry key="Python" value="3153" />
         </counts>
       </usages-collector>
     </session>
@@ -128,11 +108,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="75" column="46" lean-forward="true" selection-start-line="75" selection-start-column="46" selection-end-line="75" selection-end-column="46" />
+            <state relative-caret-position="-227">
+              <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
               <folding>
                 <element signature="e#1#13#0" expanded="true" />
-                <marker date="1543834387463" expanded="true" signature="2853:2857" ph="..." />
+                <marker date="1543840310185" expanded="true" signature="2888:2892" ph="..." />
               </folding>
             </state>
           </provider>
@@ -146,6 +126,12 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>hidden_num</find>
+      <find>sum</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -179,9 +165,10 @@
         <option value="$PROJECT_DIR$/trash/trash_code" />
         <option value="$PROJECT_DIR$/svm_forecasting.py" />
         <option value="$PROJECT_DIR$/ARIMA2.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/train_NN.py" />
         <option value="$PROJECT_DIR$/model.py" />
+        <option value="$PROJECT_DIR$/train_NN.py" />
+        <option value="$PROJECT_DIR$/SVR.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -208,6 +195,11 @@
             <path>
               <item name="time_series_forecasting_pytorch" type="b2602c69:ProjectViewProjectNode" />
               <item name="time_series_forecasting_pytorch" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="time_series_forecasting_pytorch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="time_series_forecasting_pytorch" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -294,7 +286,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="eval (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="SVR" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="time_series_forecasting_pytorch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -307,7 +299,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eval.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SVR.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -338,28 +330,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="time_series_forecasting_pytorch" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="svm_forecasting" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="time_series_forecasting_pytorch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -382,6 +352,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="train_NN" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="time_series_forecasting_pytorch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_NN.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -392,19 +384,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main" />
       <item itemvalue="Python.main (1)" />
-      <item itemvalue="Python.eval (1)" />
       <item itemvalue="Python.ARIMA" />
       <item itemvalue="Python.svm_forecasting" />
+      <item itemvalue="Python.SVR" />
+      <item itemvalue="Python.train_NN" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.SVR" />
+        <item itemvalue="Python.train_NN" />
         <item itemvalue="Python.svm_forecasting" />
         <item itemvalue="Python.ARIMA" />
-        <item itemvalue="Python.eval (1)" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -440,9 +432,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19412607" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2299427" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -485,9 +476,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/model.py</url>
-          <line>70</line>
-          <option name="timeStamp" value="14" />
+          <url>file://$PROJECT_DIR$/SVR.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -591,9 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
           <caret line="8" column="43" lean-forward="true" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -604,9 +592,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/code/__init__.py" />
     <entry file="file://$USER_HOME$/.PyCharm2018.2/system/python_stubs/-1771273137/torch/_C/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -625,9 +611,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -660,23 +643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/NSW2013.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SVR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="41" column="14" lean-forward="true" selection-start-line="27" selection-start-column="4" selection-end-line="41" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/eval.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="573">
@@ -691,9 +657,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="25">
           <caret line="18" column="42" lean-forward="true" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -701,9 +664,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2025">
           <caret line="9" column="47" lean-forward="true" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -717,33 +677,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_NN.py">
+    <entry file="file://$PROJECT_DIR$/data/NSW2013.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        <state relative-caret-position="275">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SVR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
           <folding>
-            <element signature="e#0#94#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        <state relative-caret-position="197">
+          <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
           <folding>
-            <element signature="e#0#45#0" expanded="true" />
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_NN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="75" column="46" lean-forward="true" selection-start-line="75" selection-start-column="46" selection-end-line="75" selection-end-column="46" />
+        <state relative-caret-position="-227">
+          <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
           <folding>
             <element signature="e#1#13#0" expanded="true" />
-            <marker date="1543834387463" expanded="true" signature="2853:2857" ph="..." />
+            <marker date="1543840310185" expanded="true" signature="2888:2892" ph="..." />
           </folding>
         </state>
       </provider>
