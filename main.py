@@ -52,7 +52,7 @@ if __name__ == "__main__":
     batchSize = 64
     epoch = 20
     MODEL_PATH = "./model/RNN_model.pkl"
-    METHOD = "GRU"
+    METHOD = "RNN_ALL"
     lr = 1e-4
 
     print("look back:", lookBack)
@@ -63,10 +63,10 @@ if __name__ == "__main__":
     print("MODEL_PATH:", MODEL_PATH)
     print("lr:", lr)
 
-    ts, data = load_data("./data/NSW2013.csv",  columnName="TOTALDEMAND")
+    # ts, data = load_data("./data/NSW2013.csv",  columnName="TOTALDEMAND")
     # ts, data = load_data("./data/bike_hour.csv", indexName="dteday", columnName="cnt")
-    # ts, data = load_data("./data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
-    # ts, data = load_data("./data/TAS2016.csv", columnName="TOTALDEMAND")
+    # ts, data = load_data("./data/traffic_data_in_bits.csv", columnName="value")
+    ts, data = load_data("./data/TAS2016.csv", columnName="TOTALDEMAND")
     # ts, data = util.load_data("./data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
 
     testPred, MAE, MRSE, SMAPE = run(data=data, lookBack=lookBack, train_lookAhead=train_lookAhead, test_lookAhead=test_lookAhead,

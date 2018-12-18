@@ -9,6 +9,31 @@ from torch.autograd import Variable
 torch.manual_seed(1)
 
 
+class TimeDistributed(nn.Module):
+    def __init__(self, module, batch_first=True):
+        super(TimeDistributed, self).__init__()
+        self.module = module
+        self.batch_first = batch_first
+
+    def forward(self, x):
+
+        if len(x.size()) <= 2:
+            return self.module(x)
+
+        # Squash samples and timesteps into a single axis
+        x_reshape = x.contiguous().view(-1, x.size(-1))  # (samples * timesteps, input_size)
+
+        y = self.module(x_reshape)
+
+        # We have to reshape Y
+        if self.batch_first:
+            y = y.contiguous().view(x.size(0), -1, y.size(-1))  # (samples, timesteps, output_size)
+        else:
+            y = y.view(-1, x.size(1), y.size(-1))  # (timesteps, samples, output_size)
+
+        return y
+
+
 # 模型基类，主要是用于指定参数和cell类型
 class BaseModel(nn.Module):
 
@@ -75,15 +100,49 @@ class Multi_Hidden_RNN_Model(BaseModel):
         if self.merge == "concate":
             rnnOutput = rnnOutput.contiguous()
             x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
-        x = nn.Dropout(0.5)(x)
+        # x = nn.Dropout(0.5)(x)
         fcOutput = self.dense(x)
 
         return fcOutput
 
 
 class RNN_Attention(BaseModel):
-    pass
 
+    def __init__(self, inputDim, hiddenNum, outputDim, layerNum, seq_len, cell="RNN", merge="concate"):
+
+        super(RNN_Attention, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
+        self.att_fc = nn.Linear(hiddenNum, 1)
+        self.time_distribut_layer = TimeDistributed(self.att_fc)
+        if merge == "mean":
+            self.dense = nn.Linear(hiddenNum, outputDim)
+        if merge == "concate":
+            self.dense = nn.Linear(hiddenNum * seq_len, outputDim)
+        self.hiddenNum = hiddenNum
+        self.merge = merge
+        self.seq_len = seq_len
+
+    def forward(self, x, batchSize):
+
+        h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
+        rnnOutput, hn = self.cell(x, h0)
+
+        attention_out = self.time_distribut_layer(rnnOutput)
+        attention_out = attention_out.view((batchSize, -1))
+        attention_out = F.softmax(attention_out)
+        attention_out = attention_out.view(batchSize, -1, 1)
+
+        rnnOutput = rnnOutput * attention_out
+
+        if self.merge == "mean":
+            sum_hidden = torch.mean(rnnOutput, 1)
+            x = sum_hidden.view(-1, self.hiddenNum)
+        if self.merge == "concate":
+            rnnOutput = rnnOutput.contiguous()
+            x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
+
+        fcOutput = self.dense(x)
+
+        return fcOutput
 
 
 # LSTM模型
@@ -99,6 +158,37 @@ class LSTMModel(BaseModel):
         rnnOutput, hn = self.cell(x, (h0, c0))  # rnnOutput 12,20,50 hn 1,20,50
         hn = hn[0].view(batchSize, self.hiddenNum)
         fcOutput = self.fc(hn)
+
+        return fcOutput
+
+
+class Multi_Hidden_LSTM_Model(BaseModel):
+
+    def __init__(self, inputDim, hiddenNum, outputDim, layerNum, cell, seq_len, merge="mean"):
+
+        super(Multi_Hidden_LSTM_Model, self).__init__(inputDim, hiddenNum, outputDim, layerNum, cell)
+        if merge == "mean":
+            self.dense = nn.Linear(hiddenNum, outputDim)
+        if merge == "concate":
+            self.dense = nn.Linear(hiddenNum * seq_len, outputDim)
+        self.hiddenNum = hiddenNum
+        self.merge = merge
+        self.seq_len = seq_len
+
+    def forward(self, x, batchSize):
+
+        h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
+        c0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.hiddenNum))
+        rnnOutput, hn = self.cell(x, (h0, c0))
+
+        if self.merge == "mean":
+            sum_hidden = torch.mean(rnnOutput, 1)
+            x = sum_hidden.view(-1, self.hiddenNum)
+        if self.merge == "concate":
+            rnnOutput = rnnOutput.contiguous()
+            x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
+        # x = nn.Dropout(0.5)(x)
+        fcOutput = self.dense(x)
 
         return fcOutput
 
@@ -142,7 +232,7 @@ class Multi_Hidden_GRU_Model(BaseModel):
         if self.merge == "concate":
             rnnOutput = rnnOutput.contiguous()
             x = rnnOutput.view(-1, self.hiddenNum * self.seq_len)
-        x = nn.Dropout(0.5)(x)
+        # x = nn.Dropout(0.5)(x)
         fcOutput = self.dense(x)
 
         return fcOutput
@@ -225,6 +315,7 @@ class ResRNNModel(nn.Module):
 
         return fcOutput
 
+
 # 加入注意机制的RNN模型
 class AttentionRNNModel(nn.Module):
 
@@ -256,93 +347,63 @@ class AttentionRNNModel(nn.Module):
         return fcOutput
 
 
+class IndRNNCell(nn.Module):
+
+    def __init__(self, inpdim, recdim, act=F.tanh):
+        super().__init__()
+        self.inpdim = inpdim
+        self.recdim = recdim
+        self.act = F.relu if act is None else act
+        self.w = nn.Parameter(torch.randn(inpdim, recdim))
+        self.u = nn.Parameter(torch.randn(recdim))
+        self.b = nn.Parameter(torch.randn(recdim))
+        self.F = nn.Linear(recdim, 1)
+
+    def forward(self, x_t, h_tm1):
+        return self.act(h_tm1 * self.u + x_t @ self.w + self.b)
 
 
-# 分解网络
-class DecompositionNetModel(nn.Module):
+class IndRNN(nn.Module):
+    def __init__(self, inpdim, recdim, depth=1):
+        """
+        inpdim      : dimension D in (Batch, Time, D)
+        recdim      : recurrent dimension/ Units/
+        depth       : stack depth
+        """
+        super().__init__()
+        self.inpdim = inpdim
+        self.recdim = recdim
+        self.cells = [IndRNNCell(inpdim, recdim) for _ in range(depth)]
+        self.depth = depth
 
-    def __init__(self, inputDim, fchiddenNum, rnnhiddenNum, outputDim):
+    def forward(self, x, h_0):
+        # h_tm1 = Variable(torch.ones(self.recdim))
+        seq = []
+        for i in range(x.size()[1]):
+            x_t = x[:, i, :]
+            for cell in self.cells:
+                h_0 = cell.forward(x_t, h_0)
+            seq.append(h_0)
+        return torch.stack(seq, dim=1), h_0
 
-        super(DecompositionNetModel, self).__init__()
-        self.fchiddenNum = fchiddenNum
-        self.rnnhiddenNum = rnnhiddenNum
+
+class IndRNNModel(nn.Module):
+
+    def __init__(self, inputDim, hiddenNum, outputDim):
+        super(IndRNNModel, self).__init__()
         self.inputDim = inputDim
+        self.hiddenNum = hiddenNum
         self.outputDim = outputDim
-        self.layerNum = 1
-        self.rnnInputDim = 1
-
-        # dropout层
-        self.drop = nn.Dropout(p=0.3)
-
-        # 一维卷积层
-        self.conv = nn.Conv1d(in_channels=1, out_channels=1, kernel_size=5, stride=1, padding=2,  bias=True)
-        self.pool = nn.AvgPool1d(kernel_size=5, stride=1, padding=2)
-        #self.conv.weight.data.fill_(0.2)
-        self.convWeight = self.conv.weight.data
-        #print(self.conv.weight.data)
-
-        # 全连接层
-        self.fc1 = nn.Linear(self.inputDim, self.fchiddenNum)
-        self.fc2 = nn.Linear(self.fchiddenNum, self.inputDim)
-
-        # 循环神经网络层
-        self.rnn1 = nn.RNN(input_size=self.rnnInputDim, hidden_size=self.rnnhiddenNum,
-                           num_layers=self.layerNum, dropout=0.5,
-                           nonlinearity="tanh", batch_first=True, )
-        self.rnn2 = nn.RNN(input_size=self.rnnInputDim, hidden_size=self.rnnhiddenNum,
-                          num_layers=self.layerNum, dropout=0.5,
-                          nonlinearity="tanh", batch_first=True, )
-        self.resrnn1 = ResRNNModel(inputDim=1, hiddenNum=self.rnnhiddenNum, outputDim=1, resDepth=4)
-        self.resrnn2 = ResRNNModel(inputDim=1, hiddenNum=self.rnnhiddenNum, outputDim=1, resDepth=4 )
-        self.gru1 = nn.GRU(input_size=self.rnnInputDim, hidden_size=self.rnnhiddenNum,
-                           num_layers=self.layerNum, dropout=0.0,
-                           batch_first=True, )
-        self.gru2 = nn.GRU(input_size=self.rnnInputDim, hidden_size=self.rnnhiddenNum,
-                           num_layers=self.layerNum, dropout=0.0,
-                           batch_first=True, )
-
-        # 线性输出层
-        self.fc3 = nn.Linear(self.rnnhiddenNum, self.outputDim)
-        self.fc4 = nn.Linear(self.rnnhiddenNum, self.outputDim)
+        self.cell = IndRNN(inputDim, hiddenNum)
+        self.fc = nn.Linear(hiddenNum, outputDim)
 
     def forward(self, x, batchSize):
 
-        # 分解网络
-        x = torch.unsqueeze(x, 1)
-        #print(x.size())
-        #x = torch.transpose(x, 1, 2)
-        # output = self.fc1(x)
-        # prime = self.fc2(output)
-        prime = self.conv(x)
-        #print(prime.size())
-        prime = self.pool(prime)
-        #print(prime.size())
-        residual = x-prime
-        # prime = torch.unsqueeze(prime, 2)
-        # residual = torch.unsqueeze(residual, 2)
-        prime = torch.transpose(prime, 1, 2)
-        residual = torch.transpose(residual, 1, 2)
+        h0 = Variable(torch.zeros(batchSize, self.hiddenNum))
+        rnnOutput, hn = self.cell(x, h0)
+        hn = hn.view(batchSize, self.hiddenNum)
+        fcOutput = self.fc(hn)
 
-        h0 = Variable(torch.zeros(self.layerNum * 1, batchSize, self.rnnhiddenNum))
-
-        # 预测主成分rnn网络
-        rnnOutput1, hn1 = self.gru1(prime, h0)  # rnnOutput 12,20,50 hn 1,20,50
-        hn1 = hn1.view(batchSize, self.rnnhiddenNum)
-        #hn1 = self.drop(hn1)
-        fcOutput1 = self.fc3(hn1)
-        #fcOutput1 = self.resrnn1.forward(prime, batchSize=batchSize)
-
-        # 预测残差rnn网络
-        rnnOutput2, hn2 = self.gru2(residual, h0)  # rnnOutput 12,20,50 hn 1,20,50
-        hn2 = hn2.view(batchSize, self.rnnhiddenNum)
-        #hn2 = self.drop(hn2)
-        fcOutput2 = self.fc4(hn2)
-        #fcOutput2 = self.resrnn2.forward(prime, batchSize=batchSize)
-
-        # 合并预测结果
-        result = fcOutput1+fcOutput2
-
-        return result, fcOutput1, fcOutput2, residual
-
+        return fcOutput
 
 

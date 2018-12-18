@@ -8,7 +8,7 @@ def trainSVM(trainX, trainY):
 
     n = trainX.shape[0]
     print("trainx num is:", n)
-    svrModel = SVR(C=0.001, epsilon=0.01, kernel="rbf")
+    svrModel = SVR(C=0.1, epsilon=0.01, kernel="rbf")
     svrModel.fit(trainX, trainY)
 
     return svrModel
@@ -80,16 +80,16 @@ if __name__ == '__main__':
 
     lookBack = 24
     train_lookAhead = 1
-    test_lookAhead = 7
+    test_lookAhead = 1
 
     print("looback:", lookBack)
     print("train look ahead:", train_lookAhead)
     print("test look ahead:", test_lookAhead)
 
-    ts, data = load_data("./data/NSW2013.csv", columnName="TOTALDEMAND")
+    # ts, data = load_data("./data/NSW2013.csv", columnName="TOTALDEMAND")
     # ts, data = load_data("./data/bike_hour.csv", indexName="dteday", columnName="cnt")
-    # ts, data = load_data("./data/traffic_data_in_bits.csv", indexName="datetime", columnName="value")
-    # ts, data = load_data("./data/TAS2016.csv", columnName="TOTALDEMAND")
+    # ts, data = load_data("./data/traffic_data_in_bits.csv", columnName="value")
+    ts, data = load_data("./data/TAS2016.csv", columnName="TOTALDEMAND")
     # ts, data = util.load_data("./data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
 
     testPred, MAE, MRSE, SMAPE = run_SVM(data, lookBack, train_lookAhead=train_lookAhead, test_lookAhead=test_lookAhead)

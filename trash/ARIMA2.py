@@ -32,7 +32,8 @@ def run_ARIMA(data, p, q, lookBack, train_lookAhead, test_lookAhead):
 
 def predict_ARIMA(trainData, testX, lookAhead, p, q):
 
-    total_train = np.concatenate(trainData, testX)
+    testX = np.array(testX).reshape(-1)
+    total_train = np.concatenate([trainData, testX], axis=0)
     model = pf.ARIMA(data=total_train, ar=p, ma=q, family=pf.Normal())
     model.fit(method="MLE")
 
@@ -41,30 +42,34 @@ def predict_ARIMA(trainData, testX, lookAhead, p, q):
     return pred
 
 
-def predict_ARIMA_iteration(trainData, testX, lookAhead, p, q):
-
-    testBatchSize = testX.shape[0]
-    ans = []
-
-    for i in range(lookAhead):
-
-        total_train = np.concatenate(trainData, testX)
-        model = pf.ARIMA(data=total_train, ar=p, ma=q, family=pf.Normal())
-        model.fit(method="MLE")
-
-        pred = model.predict(1, intervals=False)
-        ans.append(pred)
-
-        testX = testX[:, 1:]
-        pred = pred.reshape((testBatchSize, 1))
-        testX = np.append(testX, pred, axis=1)
-
-    ans = np.array(ans)
-    ans = ans.transpose([1, 0])
-    return ans
+# def predict_ARIMA_iteration(trainData, testX, lookAhead, p, q):
+#
+#     testBatchSize = testX.shape[0]
+#     ans = []
+#
+#     for i in range(lookAhead):
+#
+#         total_train = np.concatenate(trainData, testX)
+#         model = pf.ARIMA(data=total_train, ar=p, ma=q, family=pf.Normal())
+#         model.fit(method="MLE")
+#
+#         pred = model.predict(1, intervals=False)
+#         ans.append(pred)
+#
+#         testX = testX[:, 1:]
+#         pred = pred.reshape((testBatchSize, 1))
+#         testX = np.append(testX, pred, axis=1)
+#
+#     ans = np.array(ans)
+#     ans = ans.transpose([1, 0])
+#     return ans
 
 
 if __name__ == '__main__':
+
+    p = 4
+    q = 4
+    lookAhead = 1
 
     ts, data = load_data("./data/NSW2013.csv", columnName="TOTALDEMAND")
     # ts, data = load_data("../data/bike_hour.csv", indexName="dteday", columnName="cnt")
@@ -72,31 +77,13 @@ if __name__ == '__main__':
     #  ts, data = load_data("../data/TAS2016.csv", indexName="SETTLEMENTDATE", columnName="TOTALDEMAND")
     # ts, data = util.load_data("../data/AEMO/TT30GEN.csv", indexName="TRADING_INTERVAL", columnName="VALUE")
 
-    dataset = ts.values[:]
-    X = np.array(dataset,dtype="float64")
-    # size = int(len(X) * 0.9)
-    # train, test = X[0:size], X[size:len(X)]
-    train, test = divideTrainTest(dataset)
-    history = [x for x in train]
+    train, test = divideTrainTest(data)
+
     predictions = []
-    realTestY = []
-
-    for t in range(len(test)):
-        # order = st.arma_order_select_ic(history, max_ar=5, max_ma=5, ic=['aic', 'bic', 'hqic'])
-        # print(order.bic_min_order)
-            #model = ARIMA(history, order=(3, 2, 1))
-        model = pf.ARIMA(data=np.array(history), ar=4, ma=4, family=pf.Normal())
-        model.fit(method="MLE")
-
-        output = model.predict(1, intervals=False)
-
-        yhat = output.values[0][0]
-
-        predictions.append(yhat)
-        obs = test[t]
-        history.append(obs)
-        realTestY.append(obs)
-        print('predicted=%f, expected=%f' % (yhat, obs))
+    for idx in range(len(test)):
+        testX = test[idx]
+        pred = predict_ARIMA(train, testX, lookAhead, p, q)
+        predictions.append(pred)
 
     realTestY = np.array(test)
     predictions = np.array(predictions).reshape(-1)
@@ -106,8 +93,3 @@ if __name__ == '__main__':
     print('Test MAE: %.8f' % MAE)
     print('Test RMSE: %.8f' % RMSE)
     print('Test MAPE: %.8f' % MAPE)
-
-    # plot
-    # pyplot.plot(test)
-    # pyplot.plot(predictions, color='red')
-    # pyplot.show()

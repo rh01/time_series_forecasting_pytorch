@@ -26,9 +26,13 @@ def train(trainX, trainY, epoch, lr, batchSize, modelPath, lookBack, lookAhead, 
     if method == "RNN":
         net = RNNModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="RNN")
     if method == "RNN_ALL":
-        net = Multi_Hidden_RNN_Model(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="RNN", seq_len=lookBack, merge="concate")
+        net = Multi_Hidden_RNN_Model(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="RNN", seq_len=lookBack, merge="mean")
+    if method == "RNN_attention":
+        net = RNN_Attention(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, seq_len=lookBack,)
     if method == "LSTM":
         net = LSTMModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="LSTM")
+    if method == "LSTM_ALL":
+        net = Multi_Hidden_LSTM_Model(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="LSTM", seq_len=lookBack, merge="mean")
     if method == "GRU":
         net = GRUModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, layerNum=1, cell="GRU")
     if method == "GRU_ALL":
@@ -38,6 +42,8 @@ def train(trainX, trainY, epoch, lr, batchSize, modelPath, lookBack, lookAhead, 
     if method == "ResRNN":
         #net = ResidualRNNModel(inputDim=1, hiddenNum=100, outputDim=1, layerNum=1, cell="RNNCell")
         net = ResRNNModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead, resDepth=-1)
+    if method == "IndRNN":
+        net = IndRNNModel(inputDim=1, hiddenNum=hidden_num, outputDim=lookAhead)
 
     # optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=0.0005)
     optimizer = optim.RMSprop(net.parameters(), lr=lr, momentum=0.9)
@@ -52,7 +58,10 @@ def train(trainX, trainY, epoch, lr, batchSize, modelPath, lookBack, lookAhead, 
 
         for batch_idx in range(batchNum):
 
-            x = trainX[batchStart:batchStart+batchSize, :, :]
+            if method == "ANN":
+                x = trainX[batchStart:batchStart + batchSize, :]
+            else:
+                x = trainX[batchStart:batchStart+batchSize, :, :]
             y = trainY[batchStart:batchStart+batchSize]
 
             x = torch.from_numpy(x)
@@ -95,7 +104,7 @@ def predict(testX, modelFileName):
     return pred.data.numpy()
 
 
-def predict_iteration(testX, lookAhead, modelFileName):
+def predict_iteration(testX, lookAhead, modelFileName, data_form="seq_format"):
 
     net = torch.load(modelFileName)
     testBatchSize = testX.shape[0]
@@ -110,7 +119,10 @@ def predict_iteration(testX, lookAhead, modelFileName):
         ans.append(pred)
 
         testX = testX[:, 1:]
-        pred = pred.reshape((testBatchSize, 1, 1))
+        if data_form != "seq_format":
+            pred = pred.reshape((testBatchSize, 1))
+        else:
+            pred = pred.reshape((testBatchSize, 1, 1))
         testX = np.append(testX, pred, axis=1)
 
     ans = np.array(ans)

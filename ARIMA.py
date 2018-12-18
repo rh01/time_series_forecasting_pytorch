@@ -14,8 +14,6 @@ if __name__ == '__main__':
 
     dataset = ts.values[:]
     X = np.array(dataset,dtype="float64")
-    # size = int(len(X) * 0.9)
-    # train, test = X[0:size], X[size:len(X)]
     train, test = divideTrainTest(dataset)
     history = [x for x in train]
     predictions = []
@@ -46,8 +44,3 @@ if __name__ == '__main__':
     print('Test MAE: %.8f' % MAE)
     print('Test RMSE: %.8f' % RMSE)
     print('Test MAPE: %.8f' % MAPE)
-
-    # plot
-    # pyplot.plot(test)
-    # pyplot.plot(predictions, color='red')
-    # pyplot.show()
